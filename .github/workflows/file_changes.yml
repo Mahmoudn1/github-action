@@ -31,8 +31,8 @@ jobs:
             # Get the content of the file in the current branch
             current_content=$(cat "$file")
             
-            # Use diff to compare the contents, filter out the first line, and print the rest
-            added_changes=$(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+' | sed '1d; s/^+//')
+            # Use diff to compare the contents, skip the first line, and print the rest
+            added_changes=$(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+' | tail -n +2 | sed 's/^+//')
             
             # Print all added changes excluding the first line
             echo "$added_changes"
