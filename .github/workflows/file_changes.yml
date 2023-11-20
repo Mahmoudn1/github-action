@@ -24,8 +24,14 @@ jobs:
       - name: Print changes in markdown files
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
+            for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Changes in $file:"
-            git diff --unified=0 $file | while read -r line; do
-              echo "$line"
-            done
+            # Get the content of the file in the base branch (usually main or master)
+            base_content=$(git show origin/main:"$file")
+            
+            # Get the content of the file in the current branch
+            current_content=$(cat "$file")
+            
+            # Use diff to compare the contents
+            diff -u <(echo "$base_content") <(echo "$current_content")
           done
