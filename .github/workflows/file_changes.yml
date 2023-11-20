@@ -29,10 +29,10 @@ jobs:
             # Check if the file exists in the specified path and branch
             if git ls-remote --exit-code --heads origin main:"$file" &> /dev/null; then
               # Get the content of the file in the base branch (usually main or master)
-              base_content=$(git show origin/main:"cms/$file")
+              base_content=$(git show origin/main:"$file")
             
               # Get the content of the file in the current branch
-              current_content=$(cat "cms/$file")
+              current_content=$(cat "$file")
             
               # Use diff to compare the contents and add lines with meaningful changes to the array
               while IFS= read -r line; do
@@ -49,6 +49,6 @@ jobs:
                 echo "$added_line"
               done
             else
-              echo "File 'cms/$file' not found in the specified branch."
+              echo "File '$file' not found in the specified branch."
             fi
           done
