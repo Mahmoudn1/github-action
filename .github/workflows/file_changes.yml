@@ -32,8 +32,8 @@ jobs:
             current_content=$(cat "$file")
             
             # Use diff to compare the contents and print lines with meaningful changes
-            added_changes=$(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+' | sed 's/^+//' | grep -v '^{.*}$')
+            added_changes=$(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+' | sed 's/^+//' | grep -v '^{.*}$' | sed '1d')
             
-            # Print all added changes excluding lines with only braces
+            # Print all added changes excluding lines with only braces and excluding the first line
             echo "$added_changes"
           done
