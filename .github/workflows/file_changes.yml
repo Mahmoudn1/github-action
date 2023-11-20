@@ -26,6 +26,8 @@ jobs:
           added_changes=()  # Initialize an empty array
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Added changes in $file:"
+            # Check if the file exists in the specified branch
+            if git ls-remote --exit-code --heads origin main:"$file" &> /dev/null; then
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
             
