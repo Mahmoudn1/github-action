@@ -23,5 +23,5 @@ jobs:
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Changes in $file:"
-            git diff ${{ github.event.before }}..${{ github.sha }} -- $file
+            echo git diff ${{ github.event.before }}..${{ github.sha }} -- $file
           done
