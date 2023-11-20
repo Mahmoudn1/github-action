@@ -24,7 +24,6 @@ jobs:
       - name: Print changes in markdown files
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
-            for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Changes in $file:"
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
