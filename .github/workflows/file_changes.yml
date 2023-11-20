@@ -20,5 +20,6 @@ jobs:
       - name: List all changed files markdown files
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+            echo "Changes in $file:"
+            git diff $file
+          done   
