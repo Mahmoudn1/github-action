@@ -1,4 +1,5 @@
 name: 'File Changes'
+
 on:
   pull_request:
     types: [opened, synchronize]
@@ -17,9 +18,10 @@ jobs:
         with:
           files: |
              **.json
-      - name: List all changed files markdown files
+
+      - name: Print changes in markdown files
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Changes in $file:"
-            git diff $file
-          done   
+            git show ${{ github.sha }}:$file
+          done
