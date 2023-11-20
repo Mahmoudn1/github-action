@@ -25,6 +25,6 @@ jobs:
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
             echo "Changes in $file:"
-            base_commit=$(git merge-base ${GITHUB_BASE_REF} ${GITHUB_HEAD_REF})
+            base_commit=$(git merge-base ${{ github.event.before }} ${{ github.sha }})
             git diff $base_commit..${{ github.sha }} -- $file
           done
