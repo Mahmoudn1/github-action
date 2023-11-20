@@ -32,5 +32,5 @@ jobs:
             current_content=$(cat "$file")
             
             # Use diff to compare the contents
-            diff -u <(echo "$base_content") <(echo "$current_content")
+            diff -u <(echo "$base_content") <(echo "$current_content") || true
           done
