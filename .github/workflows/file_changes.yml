@@ -21,16 +21,19 @@ jobs:
           files: |
              **.json
 
-      - name: Print changes in markdown files
+      - name: Print added changes in markdown files
         run: |
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
-            echo "Changes in $file:"
+            echo "Added changes in $file:"
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
             
             # Get the content of the file in the current branch
             current_content=$(cat "$file")
             
-            # Use diff to compare the contents
-            diff -u <(echo "$base_content") <(echo "$current_content") || true
+            # Use diff to compare the contents and filter out removed lines
+            added_changes=$(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+' | sed 's/^+//')
+            
+            # Print only the added changes
+            echo "$added_changes"
           done
