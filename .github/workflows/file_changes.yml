@@ -17,8 +17,8 @@ jobs:
         with:
           files: |
              **.json
-      - name: Run step if any file(s) in the docs folder change
-        if: steps.changed-markdown-files.outputs.any_changed == 'true'
+      - name: List all changed files markdown files
         run: |
-          echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"       
+          for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
