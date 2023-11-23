@@ -61,5 +61,13 @@ jobs:
           echo "Repository Owner: $REPO_OWNER"
           echo "Repository Name: $REPO_NAME"
 
+          columns_response=$(curl -s "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects/1/columns")
+
+          echo "$columns_response"
+          # Extract the column ID based on the column name
+          COLUMN_ID=$(echo "$columns_response" | jq -r --arg COLUMN_NAME "$COLUMN_NAME" '.[] | select(.name == $COLUMN_NAME) | .id')
+          echo "$COLUMN_ID"
+
+
 
 
