@@ -61,12 +61,11 @@ jobs:
           echo "echo REPO"
 
           # Create a new issue for each added line
-          for added_line in "${{ steps.print-changes.outputs.printed_changes }}"; do
-            echo "$added_line"
+          echo "${{ steps.print-changes.outputs.printed_changes }}"
 
-            # Extract the card ID from the response if needed
-            card_id=$(echo "$response" | jq -r '.id')
+          # Extract the card ID from the response if needed
+          card_id=$(echo "$response" | jq -r '.id')
 
-            # Print the card ID if needed
-            echo "Added a card with ID: $card_id"
+          # Print the card ID if needed
+          echo "Added a card with ID: $card_id"
           done
