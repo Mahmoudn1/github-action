@@ -68,4 +68,3 @@ jobs:
 
           # Print the card ID if needed
           echo "Added a card with ID: $card_id"
-          done
