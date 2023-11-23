@@ -55,14 +55,9 @@ jobs:
       - name: Print added changes output
         run: |
           echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
-          IFS='/' read -ra REPO <<< "$(basename $GITHUB_REPOSITORY)"
-          REPO_OWNER="${REPO[0]}"
-          REPO_NAME="${REPO[1]}"
+          REPO_OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f1)
+          REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
 
-          echo "OWNER"
-          echo "$REPO_OWNER"
-
-          echo "REPO"
-          echo "$REPO_NAME"
+          echo "Repository Owner: $REPO_OWNER"
 
 
