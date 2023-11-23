@@ -49,5 +49,9 @@ jobs:
             done
           done
 
+          # Set the output variable with the added changes
+          echo "::set-output name=printed_changes::${added_changes[*]}"
+
       - name: Print added changes output
-        run: echo "${{ steps.print-changes.outputs.printed_changes }}"
+        run: |
+          echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
