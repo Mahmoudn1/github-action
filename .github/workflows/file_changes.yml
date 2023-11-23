@@ -54,8 +54,12 @@ jobs:
           IFS='/' read -ra REPO <<< "$(basename $GITHUB_REPOSITORY)"
           REPO_OWNER="${REPO[0]}"
           REPO_NAME="${REPO[1]}"
+
+          echo "Owner and Repo"
           echo "$REPO_OWNER"
           echo "$REPO_NAME"
+          echo "echo REPO"
+
           # Create a new issue for each added line
           for added_line in "${{ steps.print-changes.outputs.printed_changes }}"; do
             response=$(curl -X POST \
