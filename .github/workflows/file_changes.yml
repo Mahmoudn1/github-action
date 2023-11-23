@@ -59,5 +59,7 @@ jobs:
           REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
 
           echo "Repository Owner: $REPO_OWNER"
+          echo "Repository Name: $REPO_NAME"
+
 
 
