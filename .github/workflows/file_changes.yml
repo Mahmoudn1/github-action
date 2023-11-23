@@ -21,30 +21,21 @@ jobs:
           files: |
              **.json
 
-      - name: Print added changes in markdown files
+      - name: Run JavaScript comparison
         run: |
           added_changes=()  # Initialize an empty array
           for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
-            echo "Added changes in $file:"
+            echo "Changes in $file:"
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
             
             # Get the content of the file in the current branch
             current_content=$(cat "$file")
             
-            # Use diff to compare the contents and add lines with meaningful changes to the array
-            while IFS= read -r line; do
-              if [[ "$line" =~ ^\+[^+]{1,}$ && ! "$line" =~ ^\+{.*}$ ]]; then
-                added_changes+=("${line:1}")  # Remove the leading '+'
-              fi
-            done < <(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+')
-            
-            # Drop the first item in added_changes
-            added_changes=("${added_changes[@]:1}")
-            
-            # Print all added changes
-            for added_line in "${added_changes[@]}"; do
-              echo "$added_line"
-            done
+            # Run the JavaScript comparison function
+            changed_lines=$(node compareFiles.js "$base_content" "$current_content")
+
+            # Print the changed lines
+            echo "$changed_lines"
           done
 
