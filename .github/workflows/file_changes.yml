@@ -1,14 +1,12 @@
-name: 'File Changes'
+name: Extract Added Lines
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  change-files-checks:
+  extract-added-lines:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
 
     steps:
       - name: Checkout code
@@ -16,17 +14,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Get changes in internationalisation_de
+      - name: Extract added lines
         run: |
-          # Assuming internationalisation_de_DE.json is the file you're interested in
-          file_path="CMS/internationalisation_de_DE.json"
+          added_lines=$(git diff develop...${{ github.event.before }} -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
 
-          # Get the added and removed lines
-          added_lines=$(git diff --cached --unified=0 "$file_path" | grep '^\+' | sed 's/^\+//')
-          removed_lines=$(git diff --unified=0 "$file_path" | grep '^\-' | sed 's/^\-//')
-
-          echo "Added lines:"
+          # Use $added_lines variable in subsequent steps or print it
           echo "$added_lines"
-          
-          echo "Removed lines:"
-          echo "$removed_lines"
