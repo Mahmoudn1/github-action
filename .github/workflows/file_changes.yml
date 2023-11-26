@@ -57,7 +57,7 @@ jobs:
           echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
           title="Found a bug"
           original_string="${{ steps.print-changes.outputs.printed_changes }}"
-          echo "$original_string"
+          echo " $original_string"
           body="hala wala"
           labels="[\"bug\"]"
 
