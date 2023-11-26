@@ -18,3 +18,7 @@ jobs:
         run: |
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "$branch"
+          added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
+
+          # Use $added_lines variable in subsequent steps or print it
+          echo "$added_lines"
