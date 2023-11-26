@@ -43,21 +43,16 @@ jobs:
           echo "$added_lines"
           echo "Removed Lines:"
           echo "$removed_lines"
-          echo "::set-output name=added_Lines::${added_lines}"
+          echo "::set-output name=hamada::${added_lines}"
           echo "::set-output name=removed_lines::${removed_lines}"
-          echo "Debug - added_Lines: ${added_lines}"
 
       - name: Create new issue
         id: create-issue
         run: |
-          added_lines="${{ steps.extract-added-lines.outputs.added_Lines }}"
-          echo "Added changes: $added_lines"
-          while IFS= read -r line; do
-            echo "Added changes: $line"
-            # Add your logic for creating an issue or processing the line
-          done <<< "$added_lines"
+          added_lines="${{ steps.extract-added-lines.outputs.hamada }}"
+          echo "Added changes: $hamada"
           title="Found a bug"
-          removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.added_lines }}"| tr -d '"')
+          removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.hamada }}"| tr -d '"')
           echo "$removed_quotes"
           body="$removed_quotes"
           labels="[\"bug\"]"
