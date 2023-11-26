@@ -29,8 +29,7 @@ jobs:
           # Get the added lines between origin/main and origin/$branch
 
           added_lines=$(git diff ${{github.event.before}}..${{github.sha}} -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //' | sed 's/,$//')
-          echo "$added_lines"
-          removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
+          removed_lines=$(git diff ${{github.event.before}}..${{github.sha}} -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
 
           # Use comm to find common lines between added_lines and removed_lines
           common_lines=$(comm -12 <(echo "$added_lines" | sort) <(echo "$removed_lines" | sort))
