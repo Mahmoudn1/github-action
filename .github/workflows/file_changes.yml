@@ -42,9 +42,6 @@ jobs:
               fi
             done < <(diff -u <(echo "$base_content") <(echo "$current_content") | grep '^\+')
             
-            # Drop the first item in added_changes
-            added_changes=("${added_changes[@]:1}")
-            
             # Print all added changes
             for added_line in "${added_changes[@]}"; do
               echo "$added_line"
