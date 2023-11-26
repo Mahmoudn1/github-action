@@ -74,7 +74,7 @@ jobs:
           # Combine both tables in the body
           body="$added_table\n\n$removed_table"
 
-          labels="[\"bug\"]"
+          status="[\"Todo\"]"
 
           response=$(curl -L \
             -X POST \
