@@ -65,6 +65,8 @@ jobs:
             added_table+="| $key | $value |\n"
           done
 
+          echo "$added_table"
+
           # Create table for removed lines
           removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
           IFS=', ' read -r -a removed_lines_array <<< "$removed_text"
@@ -72,6 +74,8 @@ jobs:
             IFS=':' read -r key value <<< "${removed_lines_array[i]}"
             removed_table+="| $key | $value |\n"
           done
+
+          echo "$removed_table"
 
           # Combine both tables in the body
           body="$added_table\n\n$removed_table"
