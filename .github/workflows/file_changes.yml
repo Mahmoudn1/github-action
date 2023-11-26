@@ -25,7 +25,12 @@ jobs:
           
           # Get the added lines between origin/main and origin/$branch
           added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
+          removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^+ //')
+
           
           # Use $added_lines variable in subsequent steps or print it
-          echo "added files"
+          echo "added lines"
           echo "$added_lines"
+
+          echo "removed lines"
+          echo "$removed_lines"
