@@ -67,3 +67,5 @@ jobs:
             -d "{\"title\":\"$title\",\"body\":\"$body\",\"labels\":$labels}")
 
           echo "Issue creation response: $response"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
