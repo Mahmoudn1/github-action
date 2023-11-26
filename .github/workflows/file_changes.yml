@@ -56,7 +56,9 @@ jobs:
         run: |
           echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
           title="Found a bug"
-          body="${{ steps.print-changes.outputs.printed_changes }}"
+          original_string="${{ steps.print-changes.outputs.printed_changes }}"
+          escaped_string=$(echo "$original_string" | sed 's/"/\\\"/g')
+          body="$escaped_string"
           labels="[\"bug\"]"
 
           response=$(curl -L \
