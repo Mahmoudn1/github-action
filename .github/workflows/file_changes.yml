@@ -18,11 +18,15 @@ jobs:
 
       - name: Get changes in internationalisation_de
         run: |
-          added_changes=$(git diff --cached --name-only | xargs git diff --cached --)
-          removed_changes=$(git diff --name-only | xargs git show)
+          # Assuming internationalisation_de_DE.json is the file you're interested in
+          file_path="CMS/internationalisation_de_DE.json"
+
+          # Get the added and removed lines
+          added_lines=$(git diff --cached --unified=0 "$file_path" | grep '^\+' | sed 's/^\+//')
+          removed_lines=$(git diff --unified=0 "$file_path" | grep '^\-' | sed 's/^\-//')
+
+          echo "Added lines:"
+          echo "$added_lines"
           
-          echo "Added changes:"
-          echo "$added_changes"
-          
-          echo "Removed changes:"
-          echo "$removed_changes"
+          echo "Removed lines:"
+          echo "$removed_lines"
