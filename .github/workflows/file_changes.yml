@@ -47,6 +47,7 @@ jobs:
       - name: Create new issue
         id: create-issue
         run: |
+          set -x
           added_text="${{ steps.extract-modified-lines.outputs.added }}"
           removed_text="${{ steps.extract-modified-lines.outputs.removed }}"
 
