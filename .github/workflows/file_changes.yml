@@ -58,7 +58,7 @@ jobs:
         id: create-issue
         run: |
           title="Found a bug"
-          body="${{ steps.print-changes.outputs.printed_changes//$'\n'/\\n }}"
+          body=$(printf '{"text":"%s"}' "${{ steps.print-changes.outputs.printed_changes }}")
           labels="[\"bug\"]"
 
           response=$(curl -L \
