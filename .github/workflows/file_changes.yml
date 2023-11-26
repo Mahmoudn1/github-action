@@ -55,19 +55,6 @@ jobs:
       - name: Print added changes output
         run: |
           echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
-          REPO_OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f1)
-          REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
-
-          echo "Repository Owner: $REPO_OWNER"
-          echo "Repository Name: $REPO_NAME"
-
-          columns_response=$(curl -s "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects/1/columns")
-
-          echo "$columns_response"
-          # Extract the column ID based on the column name
-          COLUMN_ID=$(echo "$columns_response" | jq -r --arg COLUMN_NAME "$COLUMN_NAME" '.[] | select(.name == $COLUMN_NAME) | .id')
-          echo "$COLUMN_ID"
-
 
 
 
