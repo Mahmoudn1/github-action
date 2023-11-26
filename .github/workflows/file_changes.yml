@@ -63,19 +63,25 @@ jobs:
           added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
           removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
 
-          # Create a table with markdown formatting
-          body="**Changes Summary:**\n\n| Line | Added | Removed |\n|------|-------|---------|\n"
-      
-          # Split lines into an array
+          # Create table for added lines
+
+          added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
           IFS=', ' read -r -a added_lines_array <<< "$added_text_removed_quotes"
-          IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
-      
-          # Iterate over lines and add to the table
           for i in "${!added_lines_array[@]}"; do
-            added_line="${added_lines_array[i]}"
-            removed_line="${removed_lines_array[i]}"
-            body+="| $((i+1)) | $added_line | $removed_line |\n"
+            IFS=':' read -r key value <<< "${added_lines_array[i]}"
+            added_table+="| $key | $value |\n"
           done
+
+          # Create table for removed lines
+          removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
+          IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
+          for i in "${!removed_lines_array[@]}"; do
+            IFS=':' read -r key value <<< "${removed_lines_array[i]}"
+            removed_table+="| $key | $value |\n"
+          done
+
+          # Combine both tables in the body
+          body="$added_table\n\n$removed_table"
 
           labels="[\"bug\"]"
 
