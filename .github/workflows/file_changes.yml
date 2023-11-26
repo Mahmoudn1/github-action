@@ -21,6 +21,7 @@ jobs:
           
           # Fetch the latest changes from the remote repository
           git fetch origin main
+          git fetch origin $branch
           
           # Get the added lines between origin/main and origin/$branch
           added_lines=$(git diff origin/main...origin/$branch)
