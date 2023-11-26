@@ -24,7 +24,7 @@ jobs:
           git fetch origin $branch
           
           # Get the added lines between origin/main and origin/$branch
-          added_lines=$(git diff origin/main...origin/$branch)
+          added_lines=$(git diff origin/main..origin/$branch)
           
           # Use $added_lines variable in subsequent steps or print it
           echo "$added_lines"
