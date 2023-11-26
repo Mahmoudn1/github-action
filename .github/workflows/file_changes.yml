@@ -49,9 +49,10 @@ jobs:
       - name: Create new issue
         id: create-issue
         run: |
-          echo "Added changes: ${steps.extract-added-lines.outputs.added_Lines}"
+          added_lines="${{ steps.extract-added-lines.outputs.added_Lines }}"
+          echo "Added changes: $added_lines"
           title="Found a bug"
-          removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.added_Lines }}"| tr -d '"')
+          removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.added_lines }}"| tr -d '"')
           echo "$removed_quotes"
           body="$removed_quotes"
           labels="[\"bug\"]"
