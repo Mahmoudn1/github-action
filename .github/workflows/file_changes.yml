@@ -20,9 +20,9 @@ jobs:
 
       - name: Give execute permissions to scripts
         run: |
-          chmod +x scripts/extract-modified-lines.sh
-          chmod +x scripts/create-issue.sh
-          chmod +x scripts/add-item.sh    
+          chmod +x ./scripts/extract-modified-lines.sh
+          chmod +x ./scripts/create-issue.sh
+          chmod +x ./scripts/add-item.sh    
 
       - name: Extract modified lines
         id: extract-modified-lines
