@@ -60,8 +60,8 @@ jobs:
 
           title="CMS Change PR ${{ github.event.pull_request.number }}"
 
-          added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
-          removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
+          added_text_removed_quotes=$(echo "$added_text"| tr -d '" ')
+          removed_text_removed_quotes=$(echo "$removed_text"| tr -d '" ')
 
           echo "without qoutes"
           echo "$removed_text_removed_quotes"
@@ -79,9 +79,6 @@ jobs:
           IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
           for i in "${!removed_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${removed_lines_array[i]}"
-            echo "key and value"
-            echo "$key"
-            echo "$value"
             removed_table+="| $key | $value |\n"
           done
 
