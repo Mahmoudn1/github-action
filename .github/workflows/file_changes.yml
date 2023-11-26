@@ -63,6 +63,8 @@ jobs:
           added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
           removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
 
+          echo "without qoutes"
+          echo "$removed_text_removed_quotes"
           # Create table for added lines
 
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
