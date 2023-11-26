@@ -1,17 +1,15 @@
 name: 'Add changes in internationalisation_de_DE to Github Project'
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+      - main
 
 jobs:
   change-files-checks:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-
-    if: github.event.pull_request.merged == true   
 
     steps:
       - name: Checkout code
