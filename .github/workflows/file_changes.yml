@@ -16,8 +16,8 @@ jobs:
 
       - name: Extract added lines
         run: |
-          echo "${{ GITHUB_HEAD_REF }}"
-          added_lines=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF})
+          echo "${{ HEAD }}"
+          added_lines=$(git diff origin/main..HEAD)
 
           # Use $added_lines variable in subsequent steps or print it
           echo "$added_lines"
