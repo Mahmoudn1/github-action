@@ -18,7 +18,12 @@ jobs:
         run: |
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "$branch"
-          added_lines=$(git diff origin/main origin/$branch)
-
+          
+          # Fetch the latest changes from the remote repository
+          git fetch origin main
+          
+          # Get the added lines between origin/main and origin/$branch
+          added_lines=$(git diff origin/main...origin/$branch)
+          
           # Use $added_lines variable in subsequent steps or print it
           echo "$added_lines"
