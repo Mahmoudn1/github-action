@@ -69,4 +69,12 @@ jobs:
             https://api.github.com/repos/Mahmoudn1/github-action/issues \
             -d "{\"title\":\"$title\",\"body\":\"$body\",\"labels\":$labels}")
 
-          echo "Issue creation response: $response"
+          # Set the output variable
+          issue_id=$(echo "$response" | jq -r '.node_id')
+          echo "::set-output name=issue_id::${issue_id}"
+
+      - name: Add Item to The Project
+        id: add-item
+        run: |
+          echo "Added changes: ${{ steps.create-issue.outputs.issue_id }}"
+
