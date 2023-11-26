@@ -1,14 +1,16 @@
+# .github/workflows/workflow.yml
 name: 'Add changes in internationalisation_de_DE to Github Project'
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - main
 
 jobs:
   change-files-checks:
     runs-on: ubuntu-latest
     permissions:
-      issues: write   
+      issues: write
 
     steps:
       - name: Checkout code
@@ -16,85 +18,20 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Give execute permissions to scripts
+        run: |
+          chmod +x scripts/extract-modified-lines.sh
+          chmod +x scripts/create-issue.sh
+          chmod +x scripts/add-item.sh    
+
       - name: Extract modified lines
         id: extract-modified-lines
-        run: |
-          branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-          
-          # Fetch the latest changes from the remote repository
-          git fetch origin main
-          git fetch origin $branch
-          
-          # Get the added lines between origin/main and origin/$branch
-          added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //' | sed 's/,$//')
-          removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
-
-          # Use comm to find common lines between added_lines and removed_lines
-          common_lines=$(comm -12 <(echo "$added_lines" | sort) <(echo "$removed_lines" | sort))
-          
-          # Remove common lines from added_lines and removed_lines if exist
-          if [ -n "$common_lines" ]; then
-          added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
-          removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
-          fi
-
-          added_lines_single_line=$(echo "$added_lines" | tr '\n' ',' | sed 's/,$//')
-          removed_lines_single_line=$(echo "$removed_lines" | tr '\n' ',' | sed 's/,$//')
-
-          echo "::set-output name=added::${added_lines_single_line}"
-          echo "::set-output name=removed::${removed_lines_single_line}"
+        run: ./scripts/extract-modified-lines.sh
 
       - name: Create new issue
         id: create-issue
-        run: |
-          added_text="${{ steps.extract-modified-lines.outputs.added }}"
-          removed_text="${{ steps.extract-modified-lines.outputs.removed }}"
-
-          title="CMS Change PR ${{ github.event.pull_request.number }}"
-
-          added_text_removed_quotes=$(echo "$added_text"| tr -d '" ')
-          removed_text_removed_quotes=$(echo "$removed_text"| tr -d '" ')
-
-          # Create table for added lines
-          added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a added_lines_array <<< "$added_text_removed_quotes"
-          for i in "${!added_lines_array[@]}"; do
-            IFS=':' read -r key value <<< "${added_lines_array[i]}"
-            added_table+="| $key | $value |\n"
-          done
-
-          # Create table for removed lines
-          removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
-          for i in "${!removed_lines_array[@]}"; do
-            IFS=':' read -r key value <<< "${removed_lines_array[i]}"
-            removed_table+="| $key | $value |\n"
-          done
-
-          # Combine both tables in the body
-          body="$added_table\n\n$removed_table"
-
-          status="[\"Todo\"]"
-
-          response=$(curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/Mahmoudn1/github-action/issues \
-            -d "{\"title\":\"$title\",\"body\":\"$body\",\"status\":$status}")
-
-          # Set the output variable
-          issue_id=$(echo "$response" | jq -r '.node_id')
-          echo "::set-output name=issue_id::${issue_id}"
+        run: ./scripts/create-issue.sh
 
       - name: Add Item to The Project
         id: add-item
-        run: |
-          issue_id="${{ steps.create-issue.outputs.issue_id }}"
-          response=$(curl --request POST \
-            --url https://api.github.com/graphql \
-            --header 'Authorization: Bearer ${{ secrets.MY_SECRET }}' \
-            --data '{"query":"mutation {addProjectV2ItemById(input: {projectId: \"PVT_kwHOBYJ8084AYkeK\" contentId: \"'"$issue_id"'\"}) {item {id}}}"}')
-          
-          echo "$response"
+        run: ./scripts/add-item.sh
