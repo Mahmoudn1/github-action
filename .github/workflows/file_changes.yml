@@ -44,18 +44,23 @@ jobs:
           echo "Removed Lines:"
           echo "$removed_lines"
           added_lines_single_line=$(echo "$added_lines" | tr '\n' ',' | sed 's/,$//')
-          echo "::set-output name=hamada::${added_lines_single_line}"
-          echo "::set-output name=removed_lines::${removed_lines}"
+          removed_lines_single_line=$(echo "$removed_lines" | tr '\n' ',' | sed 's/,$//')
+
+          echo "::set-output name=added::${added_lines_single_line}"
+          echo "::set-output name=removed::${removed_lines_single_line}"
 
       - name: Create new issue
         id: create-issue
         run: |
-          added_lines="${{ steps.extract-added-lines.outputs.hamada }}"
-          echo "Added changes: $hamada"
+          added_text="${{ steps.extract-added-lines.outputs.added }}"
+          removed_text="${{ steps.extract-added-lines.outputs.removed }}"
+
+          echo "Added changes: $added_text"
+          echo "Removed changes: $removed_text"
+
           title="Found a bug"
-          removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.hamada }}"| tr -d '"')
-          echo "$removed_quotes"
-          body="$removed_quotes"
+          added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
+          body="$added_text_removed_quotes"
           labels="[\"bug\"]"
 
           response=$(curl -L \
