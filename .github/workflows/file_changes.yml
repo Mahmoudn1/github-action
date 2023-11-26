@@ -14,18 +14,18 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Get all changed markdown files
-        id: changed-markdown-files
-        uses: tj-actions/changed-files@v40
-        with:
-          files: |
-             **.json
+      - name: Get all changed json files
+        id: changed-json-files
+        run: |
+          # Get all changed json files
+          changed_json_files=($(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- '*.json'))
+          echo "::set-output name=changed_json_files::${changed_json_files[*]}"
 
-      - name: Print added changes in markdown files
+      - name: Print added changes in json files
         id: print-changes
         run: |
           added_changes=()  # Initialize an empty array
-          for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed-json-files.outputs.changed_json_files }}; do
             echo "Added changes in $file:"
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
@@ -51,10 +51,20 @@ jobs:
 
           # Set the output variable with the added changes
           echo "::set-output name=printed_changes::${added_changes[*]}"
-      - name: Create Issue
-        run: |
-          echo "Creating new issue..."
-          cat ISSUE_TEMPLATE.md | sed -e "s/{{title}}/$GITHUB_EVENT_TITLE/" | sed -e "s/{{body}}/$GITHUB_EVENT_BODY/" | github-issue create
-  
-  
 
+      - name: Create new issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const addedChanges = `${{ steps.print-changes.outputs.printed_changes }}`;
+            const title = 'New Changes Detected';
+            const body = `The following changes were detected:\n\n${addedChanges}`;
+
+            const response = await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+            });
+
+            console.log(`New issue created: ${response.data.html_url}`);
