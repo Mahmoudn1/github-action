@@ -16,6 +16,7 @@ jobs:
 
       - name: Extract added lines
         run: |
+          set -x
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "$branch"
           
@@ -27,22 +28,12 @@ jobs:
           added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //' | sed 's/,$//')
           removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
 
-          # Check if both added_lines and removed_lines are not empty before proceeding
-          if [ -n "$added_lines" ] && [ -n "$removed_lines" ]; then
-            echo "And Gowaaaaa"
-            # Check if added_lines is not empty before sorting
-            added_lines=$(echo "$added_lines" | sort)
+          # Use comm to find common lines between added_lines and removed_lines
+          common_lines=$(comm -12 <(echo "$added_lines" | sort) <(echo "$removed_lines" | sort))
 
-            # Check if removed_lines is not empty before sorting
-            removed_lines=$(echo "$removed_lines" | sort)
-
-            # Use comm to find common lines between added_lines and removed_lines
-            common_lines=$(comm -12 <(echo "$added_lines") <(echo "$removed_lines") || true)
-
-            # Remove common lines from added_lines and removed_lines
-            added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
-            removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
-          fi
+          # Remove common lines from added_lines and removed_lines
+          added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
+          removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
 
           echo "Added Lines:"
           echo "$added_lines"
