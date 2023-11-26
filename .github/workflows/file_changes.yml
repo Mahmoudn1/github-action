@@ -52,14 +52,13 @@ jobs:
       - name: Create new issue
         id: create-issue
         run: |
-          echo "PR number is ${{ github.event.pull_request.number }}"
           added_text="${{ steps.extract-added-lines.outputs.added }}"
           removed_text="${{ steps.extract-added-lines.outputs.removed }}"
 
           echo "Added changes: $added_text"
           echo "Removed changes: $removed_text"
 
-          title="Found a bug"
+          title="CMS Change PR ${{ github.event.pull_request.number }}"
 
           added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
           removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
