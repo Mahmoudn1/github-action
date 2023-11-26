@@ -16,8 +16,8 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Get all changed markdown files
-        id: changed-markdown-files
+      - name: get changes in internationalisation_de
+        id: changed-files
         uses: tj-actions/changed-files@v40
         with:
           files: |
@@ -27,7 +27,7 @@ jobs:
         id: print-changes
         run: |
           added_changes=()  # Initialize an empty array
-          for file in ${{ steps.changed-markdown-files.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "Added changes in $file:"
             # Get the content of the file in the base branch (usually main or master)
             base_content=$(git show origin/main:"$file")
