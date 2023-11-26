@@ -54,7 +54,8 @@ jobs:
           removed_text="${{ steps.extract-modified-lines.outputs.removed }}"
 
           title="CMS Change PR ${{ github.event.pull_request.number }}"
-
+          echo "$added_text"
+          echo "$removed_text"
          
           # Create table for added lines
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
