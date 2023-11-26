@@ -29,6 +29,7 @@ jobs:
 
           # Check if both added_lines and removed_lines are not empty before proceeding
           if [ -n "$added_lines" ] && [ -n "$removed_lines" ]; then
+            echo "And Gowaaaaa"
             # Check if added_lines is not empty before sorting
             added_lines=$(echo "$added_lines" | sort)
 
