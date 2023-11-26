@@ -52,6 +52,10 @@ jobs:
         run: |
           added_lines="${{ steps.extract-added-lines.outputs.added_Lines }}"
           echo "Added changes: $added_lines"
+          while IFS= read -r line; do
+            echo "Added changes: $line"
+            # Add your logic for creating an issue or processing the line
+          done <<< "$added_lines"
           title="Found a bug"
           removed_quotes=$(echo "${{ steps.extract-added-lines.outputs.added_lines }}"| tr -d '"')
           echo "$removed_quotes"
