@@ -20,7 +20,6 @@ jobs:
         id: extract-added-lines
         run: |
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-          echo "$branch"
           
           # Fetch the latest changes from the remote repository
           git fetch origin main
@@ -39,10 +38,6 @@ jobs:
           removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
           fi
 
-          echo "Added Lines:"
-          echo "$added_lines"
-          echo "Removed Lines:"
-          echo "$removed_lines"
           added_lines_single_line=$(echo "$added_lines" | tr '\n' ',' | sed 's/,$//')
           removed_lines_single_line=$(echo "$removed_lines" | tr '\n' ',' | sed 's/,$//')
 
@@ -55,18 +50,12 @@ jobs:
           added_text="${{ steps.extract-added-lines.outputs.added }}"
           removed_text="${{ steps.extract-added-lines.outputs.removed }}"
 
-          echo "Added changes: $added_text"
-          echo "Removed changes: $removed_text"
-
           title="CMS Change PR ${{ github.event.pull_request.number }}"
 
           added_text_removed_quotes=$(echo "$added_text"| tr -d '" ')
           removed_text_removed_quotes=$(echo "$removed_text"| tr -d '" ')
 
-          echo "without qoutes"
-          echo "$removed_text_removed_quotes"
           # Create table for added lines
-
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
           IFS=', ' read -r -a added_lines_array <<< "$added_text_removed_quotes"
           for i in "${!added_lines_array[@]}"; do
@@ -102,7 +91,6 @@ jobs:
       - name: Add Item to The Project
         id: add-item
         run: |
-          echo "Added changes: ${{ steps.create-issue.outputs.issue_id }}"
           issue_id="${{ steps.create-issue.outputs.issue_id }}"
           response=$(curl --request POST \
             --url https://api.github.com/graphql \
