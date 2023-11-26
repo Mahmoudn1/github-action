@@ -27,8 +27,18 @@ jobs:
           added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //' | sed 's/,$//')
           removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
 
+          # Check if added_lines is not empty before sorting
+          if [ -n "$added_lines" ]; then
+            added_lines=$(echo "$added_lines" | sort)
+          fi
+
+          # Check if removed_lines is not empty before sorting
+          if [ -n "$removed_lines" ]; then
+            removed_lines=$(echo "$removed_lines" | sort)
+          fi
+
           # Use comm to find common lines between added_lines and removed_lines
-          common_lines=$(comm -12 <(echo "$added_lines" | sort || true) <(echo "$removed_lines" | sort || true))
+          common_lines=$(comm -12 <(echo "$added_lines") <(echo "$removed_lines") || true)
 
           # Remove common lines from added_lines and removed_lines
           added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
