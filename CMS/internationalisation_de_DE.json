@@ -1,8 +1,5 @@
 {
-  "addons_screen_title": "Optionen",
-  "one":"one",
-  "two":"two",
-  "addons_show_less": "Weniger anzeigen",
-  "three":"three",
-  "four":"four"
+  "firstIntercerptor": "firstIntercerptor",
+  "secondIntercerptor": "secondIntercerptor",
+  "thirdInterceptor": "thirdInterceptor"
 }
