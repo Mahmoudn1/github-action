@@ -24,13 +24,18 @@ jobs:
           git fetch origin $branch
           
           # Get the added lines between origin/main and origin/$branch
-          added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
-          removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^+ //')
-
+          added_lines=($(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | sed 's/^+ //' | tr '\n' ' '))
           
-          # Use $added_lines variable in subsequent steps or print it
-          echo "added lines"
-          echo "$added_lines"
+          # Get the removed lines between origin/main and origin/$branch
+          removed_lines=($(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | sed 's/^- //' | tr '\n' ' '))
 
-          echo "removed lines"
-          echo "$removed_lines"
+          # Use $added_lines and $removed_lines variables in subsequent steps or print them
+          echo "Added lines:"
+          for line in "${added_lines[@]}"; do
+            echo "$line"
+          done
+
+          echo "Removed lines:"
+          for line in "${removed_lines[@]}"; do
+            echo "$line"
+          done
