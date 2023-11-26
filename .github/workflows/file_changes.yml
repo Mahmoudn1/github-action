@@ -81,6 +81,6 @@ jobs:
           response=$(curl --request POST \
             --url https://api.github.com/graphql \
             --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-            --data '{"query":"mutation {addProjectV2ItemById(input: {projectId: \"PVT_kwHOBYJ8084AYkeK\" contentId: \"I_kwDOKvtUK8533cpH\"}) {item {id}}}"}')
+            --data '{"query":"mutation {addProjectV2ItemById(input: {projectId: \"PVT_kwHOBYJ8084AYkeK\" contentId: \"'"$issue_id"'\"}) {item {id}}}"}')
           
           echo "$response"
