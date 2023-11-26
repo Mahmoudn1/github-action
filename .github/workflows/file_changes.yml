@@ -45,6 +45,7 @@ jobs:
           echo "$removed_lines"
           echo "::set-output name=added_Lines::${added_lines}"
           echo "::set-output name=removed_lines::${removed_lines}"
+          echo "Debug - added_Lines: ${added_lines}"
 
       - name: Create new issue
         id: create-issue
