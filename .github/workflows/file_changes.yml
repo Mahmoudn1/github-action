@@ -63,7 +63,20 @@ jobs:
           added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
           removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
 
-          body="Added changes: $added_text_removed_quotes \n Removed changes: $removed_text_removed_quotes"
+          # Create a table with markdown formatting
+          body="**Changes Summary:**\n\n| Line | Added | Removed |\n|------|-------|---------|\n"
+      
+          # Split lines into an array
+          IFS=', ' read -r -a added_lines_array <<< "$added_text_removed_quotes"
+          IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
+      
+          # Iterate over lines and add to the table
+          for i in "${!added_lines_array[@]}"; do
+            added_line="${added_lines_array[i]}"
+            removed_line="${removed_lines_array[i]}"
+            body+="| $((i+1)) | $added_line | $removed_line |\n"
+          done
+
           labels="[\"bug\"]"
 
           response=$(curl -L \
