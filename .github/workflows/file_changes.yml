@@ -16,7 +16,6 @@ jobs:
 
       - name: Extract added lines
         run: |
-          set -x
           branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "$branch"
           
