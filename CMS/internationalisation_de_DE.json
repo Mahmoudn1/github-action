@@ -1,5 +1,8 @@
 {
   "addons_screen_title": "Optionen",
+  "one":"one",
+  "two":"two",
   "addons_show_less": "Weniger anzeigen",
-  "newOneHere": "newOnteHere"
+  "three":"three",
+  "four":"four"
 }
