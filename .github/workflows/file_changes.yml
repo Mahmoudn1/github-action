@@ -41,8 +41,11 @@ jobs:
           added_lines_single_line=$(echo "$added_lines" | tr '\n' ',' | sed 's/,$//')
           removed_lines_single_line=$(echo "$removed_lines" | tr '\n' ',' | sed 's/,$//')
 
-          echo "::set-output name=added::${added_lines_single_line}"
-          echo "::set-output name=removed::${removed_lines_single_line}"
+          added_text_removed_quotes=$(echo "$added_lines_single_line"| tr -d '" ')
+          removed_text_removed_quotes=$(echo "$removed_lines_single_line"| tr -d '" ')
+
+          echo "::set-output name=added::${added_text_removed_quotes}"
+          echo "::set-output name=removed::${removed_text_removed_quotes}"
 
       - name: Create new issue
         id: create-issue
@@ -53,12 +56,10 @@ jobs:
 
           title="CMS Change PR ${{ github.event.pull_request.number }}"
 
-          added_text_removed_quotes=$(echo "$added_text"| tr -d '" ')
-          removed_text_removed_quotes=$(echo "$removed_text"| tr -d '" ')
-
+         
           # Create table for added lines
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a added_lines_array <<< "$added_text_removed_quotes"
+          IFS=', ' read -r -a added_lines_array <<< "$added_text"
           for i in "${!added_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${added_lines_array[i]}"
             added_table+="| $key | $value |\n"
@@ -66,7 +67,7 @@ jobs:
 
           # Create table for removed lines
           removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
+          IFS=', ' read -r -a removed_lines_array <<< "$removed_text"
           for i in "${!removed_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${removed_lines_array[i]}"
             removed_table+="| $key | $value |\n"
