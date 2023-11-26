@@ -16,7 +16,8 @@ jobs:
 
       - name: Extract added lines
         run: |
-          added_lines=$(git diff origin/main...${{ env.GITHUB_HEAD_REF }} -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
+          echo "${{ env.GITHUB_HEAD_REF }}"
+          added_lines=$(git diff origin/main..${{ env.GITHUB_HEAD_REF }} -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //')
 
           # Use $added_lines variable in subsequent steps or print it
           echo "$added_lines"
