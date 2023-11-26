@@ -57,6 +57,7 @@ jobs:
       - name: Create new issue
         id: create-issue
         run: |
+          echo "weba3den ${{ steps.print-changes.outputs.printed_changes }}"
           title="Found a bug"
           body="${{ steps.print-changes.outputs.printed_changes }}"
           labels="[\"bug\"]"
