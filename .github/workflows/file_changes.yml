@@ -59,7 +59,7 @@ jobs:
          
           # Create table for added lines
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a added_lines_array <<< "$added_text"
+          IFS=',' read -r -a added_lines_array <<< "$added_text"
           for i in "${!added_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${added_lines_array[i]}"
             added_table+="| $key | $value |\n"
@@ -69,7 +69,7 @@ jobs:
 
           # Create table for removed lines
           removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS=', ' read -r -a removed_lines_array <<< "$removed_text"
+          IFS=',' read -r -a removed_lines_array <<< "$removed_text"
           for i in "${!removed_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${removed_lines_array[i]}"
             removed_table+="| $key | $value |\n"
