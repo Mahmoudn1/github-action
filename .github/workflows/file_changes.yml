@@ -56,7 +56,9 @@ jobs:
         run: |
           echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
           title="Found a bug"
-          body="Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
+          original_string="${{ steps.print-changes.outputs.printed_changes }}"
+          removed_quotes=$(echo "$original_string" | tr -d '"')
+          body="$removed_quotes"
           labels="[\"bug\"]"
 
           response=$(curl -L \
