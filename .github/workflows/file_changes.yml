@@ -51,10 +51,10 @@ jobs:
 
           # Set the output variable with the added changes
           echo "::set-output name=printed_changes::${added_changes[*]}"
-
-      - name: Print added changes output
+      - name: Create Issue
         run: |
-          echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
-
-
+          echo "Creating new issue..."
+          cat ISSUE_TEMPLATE.md | sed -e "s/{{title}}/$GITHUB_EVENT_TITLE/" | sed -e "s/{{body}}/$GITHUB_EVENT_BODY/" | github-issue create
+  
+  
 
