@@ -53,13 +53,13 @@ jobs:
 
           # Set the output variable with the added changes
           echo "::set-output name=printed_changes::${added_changes[*]}"
-          echo "printed_changes=${{ steps.print-changes.outputs.printed_changes }}" >> $GITHUB_ENV
 
       - name: Create new issue
         id: create-issue
         run: |
+          echo "Added changes: ${{ steps.print-changes.outputs.printed_changes }}"
           title="Found a bug"
-          body="${{ env.printed_changes }}"
+          body="${{ steps.print-changes.outputs.printed_changes }}"
           labels="[\"bug\"]"
 
           response=$(curl -L \
