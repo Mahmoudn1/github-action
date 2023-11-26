@@ -18,12 +18,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Give execute permissions to scripts
-        run: |
-          chmod +x ./scripts/extract-modified-lines.sh
-          chmod +x ./scripts/create-issue.sh
-          chmod +x ./scripts/add-item.sh    
-
       - name: Extract modified lines
         id: extract-modified-lines
         run: ./scripts/extract-modified-lines.sh
