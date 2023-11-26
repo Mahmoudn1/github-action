@@ -82,7 +82,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/Mahmoudn1/github-action/issues \
-            -d "{\"title\":\"$title\",\"body\":\"$body\",\"labels\":$labels}")
+            -d "{\"title\":\"$title\",\"body\":\"$body\",\"status\":$status}")
 
           # Set the output variable
           issue_id=$(echo "$response" | jq -r '.node_id')
