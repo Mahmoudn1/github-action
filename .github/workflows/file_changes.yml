@@ -79,6 +79,9 @@ jobs:
           IFS=', ' read -r -a removed_lines_array <<< "$removed_text_removed_quotes"
           for i in "${!removed_lines_array[@]}"; do
             IFS=':' read -r key value <<< "${removed_lines_array[i]}"
+            echo "key and value"
+            echo "$key"
+            echo "$value"
             removed_table+="| $key | $value |\n"
           done
 
