@@ -59,8 +59,11 @@ jobs:
           echo "Removed changes: $removed_text"
 
           title="Found a bug"
+
           added_text_removed_quotes=$(echo "$added_text"| tr -d '"')
-          body="$added_text_removed_quotes"
+          removed_text_removed_quotes=$(echo "$removed_text"| tr -d '"')
+
+          body="Added changes: $added_text_removed_quotes \n Removed changes: $removed_text_removed_quotes"
           labels="[\"bug\"]"
 
           response=$(curl -L \
