@@ -31,9 +31,7 @@ jobs:
           # Use comm to find common lines between added_lines and removed_lines
           common_lines=$(comm -12 <(echo "$added_lines" | sort) <(echo "$removed_lines" | sort))
 
-          # Remove common lines from added_lines and removed_lines
-          added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
-          removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
+          
 
           echo "Added Lines:"
           echo "$added_lines"
