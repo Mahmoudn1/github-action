@@ -43,7 +43,8 @@ jobs:
           echo "$added_lines"
           echo "Removed Lines:"
           echo "$removed_lines"
-          echo "::set-output name=hamada::${added_lines}"
+          added_lines_single_line=$(echo "$added_lines" | tr '\n' ',' | sed 's/,$//')
+          echo "::set-output name=hamada::${added_lines_single_line}"
           echo "::set-output name=removed_lines::${removed_lines}"
 
       - name: Create new issue
