@@ -55,10 +55,6 @@ jobs:
         run: |
           added_text="${{ steps.extract-modified-lines.outputs.added }}"
           removed_text="${{ steps.extract-modified-lines.outputs.removed }}"
-
-          title="CMS Change PR ${{ github.event.pull_request.number }}"
-          echo "$added_text"
-          echo "$removed_text"
          
           # Create table for added lines
           added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
@@ -68,8 +64,6 @@ jobs:
             added_table+="| $key | $value |\n"
           done
 
-          echo "$added_table"
-
           # Create table for removed lines
           removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
           IFS='!@@!!' read -r -a removed_lines_array <<< "$removed_text"
@@ -78,13 +72,11 @@ jobs:
             removed_table+="| $key | $value |\n"
           done
 
-          echo "$removed_table"
-
           # Combine both tables in the body
           body="$added_table\n\n$removed_table"
-
-          status="[\"Todo\"]"
-
+          
+          title="CMS Change PR ${{ github.event.pull_request.number }}"
+          
           response=$(curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
