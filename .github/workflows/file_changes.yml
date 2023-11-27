@@ -1,9 +1,8 @@
 name: 'Add changes in internationalisation_de_DE to Github Project'
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   change-files-checks:
