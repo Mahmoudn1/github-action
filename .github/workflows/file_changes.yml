@@ -83,7 +83,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/Mahmoudn1/github-action/issues \
-            -d "{\"title\":\"$title\",\"body\":\"$body\",\"status\":$status}")
+            -d "{\"title\":\"$title\",\"body\":\"$body\"}")
 
           echo "$response"
           # Set the output variable
