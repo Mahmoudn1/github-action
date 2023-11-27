@@ -1,0 +1,23 @@
+name: 'Walalalala'
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  change-files-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Run create-issue.js
+        run: node create-issue.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
