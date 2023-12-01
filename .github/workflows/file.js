@@ -11,9 +11,8 @@ const getCMSChanges = async () => {
     try {
         await fs.writeFile('issue-template.md', addedLines)
         console.log('file successed write')
-    } catch {
-      const errorMessage = 'An Error occured while parsing the json files'
-      console.log(`::set-output name=result::${errorMessage}`)
+    } catch(e) {
+      console.log(`${e}`)
     }
   }
   process.exit(0)
