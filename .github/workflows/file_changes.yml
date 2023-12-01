@@ -18,7 +18,7 @@ jobs:
       - name: Run cms check
         id: 'run-cms-check'
         run: |
-          node file.js
+          node ./file.js
 
       - name: Create Issue From File
         id: create-issue
