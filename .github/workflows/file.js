@@ -6,7 +6,7 @@ const executeCommand = (command) =>
 
 const getCMSChanges = () => {
   const addedLines = executeCommand(
-    `git diff ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA} -- CMS/internationalisation_de_DE.json`
+    `git diff --color-words ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA} -- CMS/internationalisation_de_DE.json`
   )
   const markdownText = `\`\`\`diff\n${addedLines}\n\`\`\``;
   if (markdownText) {
