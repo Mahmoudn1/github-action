@@ -5,7 +5,7 @@ const executeCommand = (command) =>
 
 const getCMSChanges = async () => {
   const addedLines = executeCommand(
-    `git diff ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA} -- CMS/internationalisation_de_DE.json | grep \'^+\' | tail -n +2 | sed \'s/^+ //\' | sed \'s/,$//\'`
+    `git diff ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA} -- CMS/internationalisation_de_DE.json`
   )
 //   if (addedLines) {
 //     try {

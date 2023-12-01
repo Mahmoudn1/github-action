@@ -18,7 +18,8 @@ jobs:
       - name: Run cms check
         id: 'run-cms-check'
         run: |
-          npm run run-command
+          metha = git diff ${{github.event.before}}..${{ github.sha }} -- CMS/internationalisation_de_DE.json
+          echo "$metha"
 
       - name: Create Issue From File
         id: create-issue
