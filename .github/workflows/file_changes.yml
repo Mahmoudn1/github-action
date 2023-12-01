@@ -1,102 +1,30 @@
-name: 'Add changes in internationalisation_de_DE to Github Project'
-
+name: 'Add CMS Changes to CMS Project'
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+env:
+  GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+  GITHUB_SHA: ${{ github.sha }}
 
 jobs:
-  change-files-checks:
+  core-commits-checks:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
 
-      - name: Extract modified lines
-        id: extract-modified-lines
+      - name: Run cms check
+        id: 'run-cms-check'
         run: |
-          branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-          
-          # Fetch the latest changes from the remote repository
-          git fetch origin main
-          git fetch origin $branch
-          
-          # Get the added lines between origin/main and origin/$branch
+          node file.js
 
-          # replace origin/main..origin/$branch with ${{github.event.before}}..${{github.sha}}
-
-          added_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^+' | tail -n +2 | sed 's/^+ //' | sed 's/,$//')
-          removed_lines=$(git diff origin/main..origin/$branch -- CMS/internationalisation_de_DE.json | grep '^-' | tail -n +2 | sed 's/^- //' | sed 's/,$//')
-
-          # Use comm to find common lines between added_lines and removed_lines
-          common_lines=$(comm -12 <(echo "$added_lines" | sort) <(echo "$removed_lines" | sort))
-          
-          # Remove common lines from added_lines and removed_lines if exist
-          if [ -n "$common_lines" ]; then
-          added_lines=$(grep -vFf <(echo "$common_lines") <(echo "$added_lines"))
-          removed_lines=$(grep -vFf <(echo "$common_lines") <(echo "$removed_lines"))
-          fi
-
-          # Remove new lines and add !@@!! seperator and remove commas and remove double quotes
-          added_lines_formatted=$(echo "$added_lines" | tr '\n' '!@@!!' | sed 's/,$//' | tr -d '"')
-          removed_lines_formatted=$(echo "$removed_lines" | tr '\n' '!@@!!' | sed 's/,$//' | tr -d '"')
-
-          echo "::set-output name=added::${added_lines_formatted}"
-          echo "::set-output name=removed::${removed_lines_formatted}"
-
-      - name: Create new issue
+      - name: Create Issue From File
         id: create-issue
-        run: |
-          added_lines="${{ steps.extract-modified-lines.outputs.added }}"
-          removed_lines="${{ steps.extract-modified-lines.outputs.removed }}"
-         
-          # Create table for added lines
-          added_table="**Added Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS='!@@!!' read -r -a added_lines_array <<< "$added_lines"
-          for i in "${!added_lines_array[@]}"; do
-            IFS=':' read -r key value <<< "${added_lines_array[i]}"
-            added_table+="| $key | $value |\n"
-          done
-
-          # Create table for removed lines
-          removed_table="**Removed Lines:**\n\n| Key | Value |\n|-----|-------|\n"
-          IFS='!@@!!' read -r -a removed_lines_array <<< "$removed_lines"
-          for i in "${!removed_lines_array[@]}"; do
-            IFS=':' read -r key value <<< "${removed_lines_array[i]}"
-            removed_table+="| $key | $value |\n"
-          done
-
-          # Combine both tables in the body
-          body="$added_table\n\n$removed_table"
-          
-          title="CMS Change PR ${{ github.event.pull_request.number }}"
-
-          # Create issue request
-          response=$(curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/Mahmoudn1/github-action/issues \
-            -d "{\"title\":\"$title\",\"body\":\"$body\"}")
-          
-          echo "$response"
-
-          # Set the output variable
-          issue_id=$(echo "$response" | jq -r '.node_id')
-          echo "::set-output name=issue_id::${issue_id}"
-
-      - name: Add Item to The Project
-        id: add-item
-        run: |
-          issue_id="${{ steps.create-issue.outputs.issue_id }}"
-          response=$(curl --request POST \
-            --url https://api.github.com/graphql \
-            --header 'Authorization: Bearer ${{ secrets.MY_SECRET }}' \
-            --data '{"query":"mutation {addProjectV2ItemById(input: {projectId: \"PVT_kwHOBYJ8084AYkeK\" contentId: \"'"$issue_id"'\"}) {item {id}}}"}')
-          
-          echo "$response"
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: An example issue
+          content-filepath: ./issue-template.md
+          labels: |
+            report
