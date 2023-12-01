@@ -18,7 +18,12 @@ jobs:
       - name: Run cms check
         id: 'run-cms-check'
         run: |
-          added_lines=$(git diff 781caa1b9d34824f17249294a5e33ea9219d7435..eeb13d7209e67b76a1d7122ece73f0bec65b6af0)
+          # Get the differences between github.event.before and github.sha
+          CHANGES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+          # Print the changes
+          echo "Changes in this commit:"
+          echo "$CHANGES"
 
       - name: Create Issue From File
         id: create-issue
