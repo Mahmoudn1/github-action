@@ -18,7 +18,7 @@ jobs:
       - name: Run cms check
         id: 'run-cms-check'
         run: |
-          added_lines=$(git diff $GITHUB_EVENT_BEFORE..$GITHUB_SHA)
+          added_lines=$(git diff 781caa1b9d34824f17249294a5e33ea9219d7435..eeb13d7209e67b76a1d7122ece73f0bec65b6af0)
 
       - name: Create Issue From File
         id: create-issue
