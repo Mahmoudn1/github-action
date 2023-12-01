@@ -1,0 +1,12 @@
+{
+  "name": "github-action",
+  "version": "1.0.0",
+  "description": "reade",
+  "main": "index.js",
+  "scripts": {
+    "run-command": "export NODE_PATH=$(npm root --quiet -g) && node -e 'require(`./.github/workflows/file.js`).getCMSChanges()'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
