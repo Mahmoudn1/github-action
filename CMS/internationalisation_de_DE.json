@@ -1339,10 +1339,8 @@
   "contract_cancellation_success_status_secondary_button": "#####",
   "contract_cancellation_fail_status_title": "#####",
   "contract_cancellation_fail_status_description": "#####",
-  "contract_cancellation_fail_status_primary_button": "#####",
   "contract_cancellation_fail_status_secondary_button": "#####",
   "contract_cancellation_loading_status_text": "#####",
-  "email_verification_error_tray_title": "#####",
   "email_verification_error_tray_modal_title": "#####",
   "email_verification_error_tray_description": "#####",
   "email_verification_error_tray_primary_button": "#####",
@@ -1352,10 +1350,5 @@
   "change_plan_plans_step": "#####",
   "change_plan_summary_step": "#####",
   "change_plan_plans_title": "#####",
-  "change_plan_plan_screen_my_plan_title": "#####",
-  "change_plan_plan_screen_other_plans_title": "#####",
-  "change_plan_plan_screen_plan_card_why_this_plan_title": "#####",
-  "change_plan_plan_step_cta_button_title": "#####",
-  "change_plan_info_tray_title": "#####",
-  "change_plan_summary_step_total_cost_note": "#####"
+  "Hello": "who"
 }
