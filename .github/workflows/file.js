@@ -9,14 +9,17 @@ const getCMSChanges = () => {
     `git diff ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA}`
   )
   if (addedLines) {
-    try {
-        fs.writeFile('issue-template.md', addedLines)
-        console.log('file successed write')
-    } catch(e) {
-      console.log(`${e}`)
-    }
+     fs.writeFile('issue-template.md', addedLines)
+  .then(() => {
+    console.log('File written successfully');
+      process.exit(0)
+
+  })
+  .catch((err) => {
+    console.error('Error writing to file:', err);
+      process.exit(0)
+  });
   }
-  process.exit(0)
 }
 
 module.exports = {
