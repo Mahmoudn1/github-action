@@ -8,9 +8,10 @@ const getCMSChanges = () => {
   const addedLines = executeCommand(
     `git diff ${process.env.GITHUB_EVENT_BEFORE}..${process.env.GITHUB_SHA} -- CMS/internationalisation_de_DE.json`
   )
-  if (addedLines) {
+  const markdownText = `\`\`\`javascript\n${addedLines}\n\`\`\``;
+  if (markdownText) {
     try {
-        fs.writeFileSync('issue-template.md', addedLines)
+        fs.writeFileSync('issue-template.md', markdownText)
         console.log('file successed write')
     } catch(e) {
       console.log(`${e}`)
