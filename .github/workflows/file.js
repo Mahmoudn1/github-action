@@ -9,8 +9,7 @@ const getCMSChanges = async () => {
   )
   if (addedLines) {
     try {
-        const ISSUE_TEMPLATE_PATH = new URL('./issue-template.md', import.meta.url).pathname
-        await fs.writeFile(ISSUE_TEMPLATE_PATH, 'utf-8')
+        await fs.writeFile('issue-template.md', addedLines)
         console.log('file successed write')
     } catch {
       const errorMessage = 'An Error occured while parsing the json files'
