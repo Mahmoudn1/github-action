@@ -15,5 +15,5 @@ jobs:
           # You can target a project in a different organization
           # to the issue
           project-url: https://github.com/users/Mahmoudn1/projects/1
-          github-token: ${{ secrets.MY_SECRET}}
+          github-token: ${{ secrets.MY_SECRET }}
           labeled: report
