@@ -28,5 +28,6 @@ jobs:
         with:
           title: An example issue
           content-filepath: ./issue-template.md
+          token: ${{ secrets.GITHUB_TOKEN}}
           labels: |
             report
