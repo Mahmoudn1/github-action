@@ -1326,20 +1326,5 @@
   "contract_cancellation_reasons_bottom_section ": "#####",
   "contract_cancellation_summary_title": "#####",
   "contract_cancellation_summary_email_header": "#####",
-  "contract_cancellation_summary_date_header": "#####",
-  "contract_cancellation_summary_confirmation_button": "#####",
-  "contract_cancellation_modal_title": "#####",
-  "contract_cancellation_confirmation_menu_main_text": "#####",
-  "contract_cancellation_confirmation_menu_sub_text": "#####",
-  "contract_cancellation_confirmation_menu_primary_button_text": "#####",
-  "contract_cancellation_confirmation_menu_secondary_button_text": "#####",
-  "contract_cancellation_success_status_title": "#####",
-  "contract_cancellation_success_status_description": "#####",
-  "contract_cancellation_success_status_primary_button": "#####",
-  "contract_cancellation_success_status_secondary_button": "#####",
-  "contract_cancellation_fail_status_title": "#####",
-  "change_plan_plans_step": "#####",
-  "change_plan_summary_step": "#####",
-  "change_plan_plans_title": "#####",
-  "Hello": "Meeeeee"
+  "contract_cancellation_summary_date_header": "#####"
 }
