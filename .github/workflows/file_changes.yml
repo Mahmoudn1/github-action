@@ -28,6 +28,5 @@ jobs:
         with:
           title: An example issue
           content-filepath: ./issue-template.md
-          token: ${{ secrets.MY_SECRET}}
           labels: |
             report
