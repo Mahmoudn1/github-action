@@ -1,0 +1,16 @@
+name: on card moved
+
+on:
+  project_card:
+    types:
+      - moved
+
+jobs:
+  on-card-moved:
+    name: On Card moved
+    runs-on: ubuntu-latest
+    steps:
+      - name: "on card move"
+        run: |
+          echo "issue_url"
+          echo "${{ github.event.project_card.content_url }}"
