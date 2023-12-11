@@ -1322,7 +1322,7 @@
   "voucher_top_up_success_screen_title": "Guthaben aufgeladen",
   "voucher_topup_cancel_scan_code": "Zurück",
   "voucher_topup_qrscanner_subtitle": "CallNow Guthaben-Karte",
-  "contract_cancellation_main_reasons_error_message": "#####",
+  "contract_cancellation_main_reaasons_error_message": "#####",
   "contract_cancellation_reasons_bottom_section ": "#####",
   "contract_cancellation_summary_title": "#####",
   "contract_cancellation_summary_email_header": "#####",
