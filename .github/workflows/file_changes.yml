@@ -1,8 +1,7 @@
 name: 'Add CMS Changes to CMS Project'
 on:
-  push:
-    branches:
-      - main
+  issues:
+    [opened]
 
 env:
   GITHUB_EVENT_BEFORE: ${{ github.event.before }}
