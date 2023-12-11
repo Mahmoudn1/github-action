@@ -4,7 +4,9 @@
   "description": "reade",
   "main": "index.js",
   "scripts": {
-    "run-command": "export NODE_PATH=$(npm root --quiet -g) && node -e 'require(`./.github/workflows/file.js`).getCMSChanges()'"
+    "run-command": "export NODE_PATH=$(npm root --quiet -g) && node -e 'require(`./.github/workflows/file.js`).getCMSChanges()'",
+    "my-command": "npm install --force --no-save axios@^1.6.1 lodash@^4.17.21"
+
   },
   "keywords": [],
   "author": "",
