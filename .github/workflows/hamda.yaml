@@ -1,0 +1,11 @@
+name: Hamda belganzabel
+
+on:
+  workflow_dispatch:
+    # This event is triggered manually
+
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run my-command
